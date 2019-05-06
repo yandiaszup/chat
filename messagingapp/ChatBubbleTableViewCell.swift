@@ -59,15 +59,15 @@ class ChatBubbleTableViewCell: UITableViewCell {
                               messageLabel.topAnchor.constraint(equalTo: topAnchor, constant: 24),
                               messageLabel.leadingAnchor.constraint(equalTo: avatarImage.trailingAnchor, constant: 31),
                               messageLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -24),
-                              messageLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -75),
+                              messageLabel.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -75),
                               
                               background.topAnchor.constraint(equalTo: messageLabel.topAnchor, constant: -11),
                               background.leadingAnchor.constraint(equalTo: messageLabel.leadingAnchor, constant: -11),
                               background.bottomAnchor.constraint(equalTo: messageLabel.bottomAnchor, constant: 11),
                               background.trailingAnchor.constraint(equalTo: messageLabel.trailingAnchor, constant: 11),
-                              ]
-            
+            ]
             NSLayoutConstraint.activate(contraints)
+        
         } else {
             messageLabel.textAlignment = NSTextAlignment.right
             messageLabel.textColor = .white
@@ -78,7 +78,7 @@ class ChatBubbleTableViewCell: UITableViewCell {
             let contraints = [messageLabel.topAnchor.constraint(equalTo: topAnchor, constant: 24),
                               messageLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -27),
                               messageLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -24),
-                              messageLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 129),
+                              messageLabel.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 129),
                               
                               background.topAnchor.constraint(equalTo: messageLabel.topAnchor, constant: -11),
                               background.leadingAnchor.constraint(equalTo: messageLabel.leadingAnchor, constant: -11),
@@ -88,7 +88,6 @@ class ChatBubbleTableViewCell: UITableViewCell {
             NSLayoutConstraint.activate(contraints)
         }
     }
-    
 }
 
 enum ChatBubbleType {
