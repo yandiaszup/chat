@@ -8,14 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		E79CA4C92280AFA3001D738B /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79CA4C82280AFA3001D738B /* MessageModel.swift */; };
+		E79CA4CB2282012A001D738B /* Asests.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E79CA4CA2282012A001D738B /* Asests.xcassets */; };
+		E79CA4D0228219D6001D738B /* SenderhatTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E79CA4CE228219D6001D738B /* SenderhatTableViewCell.xib */; };
+		E79CA4D1228219D6001D738B /* SenderhatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79CA4CF228219D6001D738B /* SenderhatTableViewCell.swift */; };
+		E79CA4D622821E7A001D738B /* ReceiverChatTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E79CA4D422821E7A001D738B /* ReceiverChatTableViewCell.xib */; };
+		E79CA4D722821E7A001D738B /* ReceiverChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79CA4D522821E7A001D738B /* ReceiverChatTableViewCell.swift */; };
 		E7D45C19227C8F08005E0D18 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D45C18227C8F08005E0D18 /* AppDelegate.swift */; };
 		E7D45C1B227C8F08005E0D18 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D45C1A227C8F08005E0D18 /* ViewController.swift */; };
 		E7D45C1E227C8F08005E0D18 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E7D45C1C227C8F08005E0D18 /* Main.storyboard */; };
-		E7D45C20227C8F28005E0D18 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7D45C1F227C8F28005E0D18 /* Assets.xcassets */; };
 		E7D45C23227C8F28005E0D18 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E7D45C21227C8F28005E0D18 /* LaunchScreen.storyboard */; };
 		E7D45C2E227C8F2B005E0D18 /* messagingappTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D45C2D227C8F2B005E0D18 /* messagingappTests.swift */; };
 		E7D45C39227C8F2B005E0D18 /* messagingappUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D45C38227C8F2B005E0D18 /* messagingappUITests.swift */; };
-		E7D45C47227C90E9005E0D18 /* ChatBubbleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D45C46227C90E9005E0D18 /* ChatBubbleTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,11 +40,15 @@
 
 /* Begin PBXFileReference section */
 		E79CA4C82280AFA3001D738B /* MessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
+		E79CA4CA2282012A001D738B /* Asests.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Asests.xcassets; sourceTree = "<group>"; };
+		E79CA4CE228219D6001D738B /* SenderhatTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SenderhatTableViewCell.xib; sourceTree = "<group>"; };
+		E79CA4CF228219D6001D738B /* SenderhatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SenderhatTableViewCell.swift; sourceTree = "<group>"; };
+		E79CA4D422821E7A001D738B /* ReceiverChatTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReceiverChatTableViewCell.xib; sourceTree = "<group>"; };
+		E79CA4D522821E7A001D738B /* ReceiverChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiverChatTableViewCell.swift; sourceTree = "<group>"; };
 		E7D45C15227C8F08005E0D18 /* messagingapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = messagingapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7D45C18227C8F08005E0D18 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E7D45C1A227C8F08005E0D18 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		E7D45C1D227C8F08005E0D18 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		E7D45C1F227C8F28005E0D18 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E7D45C22227C8F28005E0D18 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E7D45C24227C8F28005E0D18 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E7D45C29227C8F2B005E0D18 /* messagingappTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = messagingappTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -50,7 +57,6 @@
 		E7D45C34227C8F2B005E0D18 /* messagingappUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = messagingappUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7D45C38227C8F2B005E0D18 /* messagingappUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = messagingappUITests.swift; sourceTree = "<group>"; };
 		E7D45C3A227C8F2B005E0D18 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E7D45C46227C90E9005E0D18 /* ChatBubbleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBubbleTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +87,7 @@
 		E7D45C0C227C8F07005E0D18 = {
 			isa = PBXGroup;
 			children = (
+				E79CA4CA2282012A001D738B /* Asests.xcassets */,
 				E7D45C17227C8F08005E0D18 /* messagingapp */,
 				E7D45C2C227C8F2B005E0D18 /* messagingappTests */,
 				E7D45C37227C8F2B005E0D18 /* messagingappUITests */,
@@ -101,12 +108,14 @@
 		E7D45C17227C8F08005E0D18 /* messagingapp */ = {
 			isa = PBXGroup;
 			children = (
+				E79CA4D422821E7A001D738B /* ReceiverChatTableViewCell.xib */,
+				E79CA4D522821E7A001D738B /* ReceiverChatTableViewCell.swift */,
+				E79CA4CE228219D6001D738B /* SenderhatTableViewCell.xib */,
+				E79CA4CF228219D6001D738B /* SenderhatTableViewCell.swift */,
 				E7D45C18227C8F08005E0D18 /* AppDelegate.swift */,
 				E7D45C1A227C8F08005E0D18 /* ViewController.swift */,
-				E7D45C46227C90E9005E0D18 /* ChatBubbleTableViewCell.swift */,
 				E79CA4C82280AFA3001D738B /* MessageModel.swift */,
 				E7D45C1C227C8F08005E0D18 /* Main.storyboard */,
-				E7D45C1F227C8F28005E0D18 /* Assets.xcassets */,
 				E7D45C21227C8F28005E0D18 /* LaunchScreen.storyboard */,
 				E7D45C24227C8F28005E0D18 /* Info.plist */,
 			);
@@ -235,8 +244,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E79CA4D0228219D6001D738B /* SenderhatTableViewCell.xib in Resources */,
+				E79CA4D622821E7A001D738B /* ReceiverChatTableViewCell.xib in Resources */,
 				E7D45C23227C8F28005E0D18 /* LaunchScreen.storyboard in Resources */,
-				E7D45C20227C8F28005E0D18 /* Assets.xcassets in Resources */,
+				E79CA4CB2282012A001D738B /* Asests.xcassets in Resources */,
 				E7D45C1E227C8F08005E0D18 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -262,10 +273,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E79CA4D722821E7A001D738B /* ReceiverChatTableViewCell.swift in Sources */,
 				E7D45C1B227C8F08005E0D18 /* ViewController.swift in Sources */,
-				E7D45C47227C90E9005E0D18 /* ChatBubbleTableViewCell.swift in Sources */,
 				E7D45C19227C8F08005E0D18 /* AppDelegate.swift in Sources */,
 				E79CA4C92280AFA3001D738B /* MessageModel.swift in Sources */,
+				E79CA4D1228219D6001D738B /* SenderhatTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -444,6 +456,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = SCUWM99H2M;
 				INFOPLIST_FILE = messagingapp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -464,6 +477,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = SCUWM99H2M;
 				INFOPLIST_FILE = messagingapp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

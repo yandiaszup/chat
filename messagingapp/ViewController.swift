@@ -25,8 +25,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     private let sendButton = UIButton()
     private let textField = UITextView()
     
-    let chatBubleReuseId = "cell1"
-    var yanzim = ["alaolasdjklahsdjklahsd","alaolasdjklahsdjklahsdjkahsdjkashdjkahsdalaolasdjklahsdjklahsdjkahsdjkashdjkahsd","alaolasdjklahsdjklahsdjkahsdjkashdjkahsdalaolasdjklahsdjklahsdjkahsdjkashdjkahsdalaolasdjklahsdjklahsdjkahsdjkashdjkahsdalaolasdjklahsdjklahsdjkahsdjkashdjkahsd"]
+    let chatBubleReuseId = "cell"
+    var yanzim = [("Lorem ipsum dolor sit amet, consectetur adipiscing elit.",true),("Nam molestie bibendum ante, vehicula tincidunt turpis placerat non. Aenean varius molestie lobortis. Nulla venenatis ut eros nec hendrerit",false),("Praesent et molestie ante. Etiam id vulputate mi. Cras id luctus urna. Donec vitae enim porttitor mi euismod dignissim. Vivamus turpis dolor, aliquam non risus a, gravida pharetra leo.",true),("Praesent et molestie ante.",false)]
     
     
     override func viewDidLoad() {
@@ -34,13 +34,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         tableView.delegate = self
         tableView.dataSource = self
-        
-        tableView.register(ChatBubbleTableViewCell.self, forCellReuseIdentifier: chatBubleReuseId)
         tableView.separatorStyle = .none
         tableView.backgroundColor = UIColor(red:0.92, green:0.92, blue:0.94, alpha:1)
         tableView.allowsSelection = false
+
+
         
-        configureTopHeaderBuy()
+        configureTopHeader()
         configureShadow()
         configureBottonBar()
         
@@ -102,9 +102,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         bottonBar.addSubview(textField)
         bottonBar.addSubview(sendButton)
         bottonBar.backgroundColor = .white
-        
-        sendButton.backgroundColor = .red
         sendButton.addTarget(self, action: #selector(handleSendMessage), for:UIControl.Event.touchDown)
+        
+        sendButton.setImage(UIImage(named: "Ícone_Enviar"), for: .normal)
         
         textField.delegate = self
         textField.text = "Digite sua mensagem"
@@ -116,8 +116,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         textField.translatesAutoresizingMaskIntoConstraints = false
         sendButton.translatesAutoresizingMaskIntoConstraints = false
         
-        let constraints = [sendButton.widthAnchor.constraint(equalToConstant: 19.71),
-                           sendButton.heightAnchor.constraint(equalToConstant: 16.02),
+        let constraints = [sendButton.widthAnchor.constraint(equalToConstant: 40.0),
+                           sendButton.heightAnchor.constraint(equalToConstant: 40.0),
                            sendButton.trailingAnchor.constraint(equalTo: bottonBar.trailingAnchor, constant: -19.0),
                            sendButton.centerYAnchor.constraint(equalTo: bottonBar.centerYAnchor, constant: 0),
             
@@ -132,13 +132,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     @objc func handleSendMessage(){
-        if let message = textField.text {
-            if let formattedMessage = formatMessage(message: message) {
-                    yanzim.append(formattedMessage)
+        if textField.text != "Digite sua mensagem"{
+            if let message = textField.text {
+                if let formattedMessage = formatMessage(message: message) {
+                    yanzim.append((formattedMessage,false))
                     let indexPath = NSIndexPath(row: yanzim.count - 1, section: 0)
                     tableView.insertRows(at: [indexPath as IndexPath], with: .right)
                     tableView.scrollToRow(at: indexPath as IndexPath, at: .bottom, animated: true)
                     textField.text = ""
+                }
             }
         }
     }
@@ -167,7 +169,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         avatarImage.layer.masksToBounds = true
         
         avatarImage.backgroundColor = .gray
-        arrow.backgroundColor = .gray
         
         carImage.isHidden = true
     }
@@ -192,7 +193,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         carImage.layer.borderColor = UIColor.white.cgColor
         
         avatarImage.backgroundColor = .gray
-        arrow.backgroundColor = .gray
     }
     
     // MARK : TableView Methods
@@ -202,9 +202,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: chatBubleReuseId, for: indexPath) as! ChatBubbleTableViewCell
-        cell.configure(text: yanzim[indexPath.row], type: ChatBubbleType.Sender)
-        return cell
+        if yanzim[indexPath.row].1 == true {
+            let cell = Bundle.main.loadNibNamed("ReceiverChatTableViewCell", owner: self, options: nil)?.first as! ReceiverChatTableViewCell
+            cell.setup(message: yanzim[indexPath.row].0)
+            return cell
+        } else {
+            let cell = Bundle.main.loadNibNamed("SenderhatTableViewCell", owner: self, options: nil)?.first as! SenderhatTableViewCell
+            cell.setup(message: yanzim[indexPath.row].0)
+            return cell
+        }
     }
 }
 
