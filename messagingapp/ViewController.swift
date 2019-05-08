@@ -38,8 +38,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         tableView.backgroundColor = UIColor(red:0.92, green:0.92, blue:0.94, alpha:1)
         tableView.allowsSelection = false
 
-
-        
         configureTopHeader()
         configureShadow()
         configureBottonBar()
@@ -49,6 +47,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tap)
+        tableView.keyboardDismissMode = .interactive
     }
     
     @objc func dismissKeyboard() {
