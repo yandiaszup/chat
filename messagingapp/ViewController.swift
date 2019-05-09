@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextViewDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var topHeader: UIView!
@@ -26,11 +26,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     private let textField = UITextView()
     
     let chatBubleReuseId = "cell"
-    var yanzim = [("Lorem ipsum dolor sit amet, consectetur adipiscing elit.",true),("Nam molestie bibendum ante, vehicula tincidunt turpis placerat non. Aenean varius molestie lobortis. Nulla venenatis ut eros nec hendrerit",false),("Praesent et molestie ante. Etiam id vulputate mi. Cras id luctus urna. Donec vitae enim porttitor mi euismod dignissim. Vivamus turpis dolor, aliquam non risus a, gravida pharetra leo.",true),("Praesent et molestie ante.",false)]
+    var sections = ["hoje"]
+    var yanzim = [[("Lorem ipsum dolor sit amet, consectetur adipiscing elit.",true),("Nam molestie bibendum ante, vehicula tincidunt turpis placerat non. Aenean varius molestie lobortis. Nulla venenatis ut eros nec hendrerit",false),("Nam molestie bibendum ante, vehicula tincidunt turpis placerat non. Aenean varius molestie lobortis. Nulla venenatis ut eros nec hendrerit",false),("Nam molestie bibendum ante, vehicula tincidunt turpis placerat non. Aenean varius molestie lobortis. Nulla venenatis ut eros nec hendrerit",false)],[("Praesent et molestie ante. Etiam id vulputate mi. Cras id luctus urna. Donec vitae enim porttitor mi euismod dignissim. Vivamus turpis dolor, aliquam non risus a, gravida pharetra leo.",true),("Praesent et molestie ante.",false)]]
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let dummyViewHeight = CGFloat(40)
+        self.tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.size.width, height: dummyViewHeight))
+        self.tableView.contentInset = UIEdgeInsets(top: -dummyViewHeight, left: 0, bottom: 0, right: 0)
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -55,6 +60,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         if textField.text.isEmpty {
             textField.text = "Digite sua mensagem"
             textField.textColor = UIColor.lightGray
+            setSendButtonCollor(enabled: false)
         }
     }
     
@@ -103,7 +109,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         bottonBar.backgroundColor = .white
         sendButton.addTarget(self, action: #selector(handleSendMessage), for:UIControl.Event.touchDown)
         
-        sendButton.setImage(UIImage(named: "Ícone_Enviar"), for: .normal)
+        let image = UIImage(named: "Ícone_Enviar")?.withRenderingMode(.alwaysTemplate)
+        sendButton.setImage(image, for: .normal)
+        setSendButtonCollor(enabled: false)
         
         textField.delegate = self
         textField.text = "Digite sua mensagem"
@@ -134,11 +142,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         if textField.text != "Digite sua mensagem"{
             if let message = textField.text {
                 if let formattedMessage = formatMessage(message: message) {
-                    yanzim.append((formattedMessage,false))
-                    let indexPath = NSIndexPath(row: yanzim.count - 1, section: 0)
+                    yanzim[1].append((formattedMessage,false))
+                    let indexPath = NSIndexPath(row: yanzim[1].count - 1, section: 1)
                     tableView.insertRows(at: [indexPath as IndexPath], with: .right)
                     tableView.scrollToRow(at: indexPath as IndexPath, at: .bottom, animated: true)
                     textField.text = ""
+                    setSendButtonCollor(enabled: false)
                 }
             }
         }
@@ -197,27 +206,66 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     // MARK : TableView Methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return yanzim.count
+        return yanzim[section].count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if yanzim[indexPath.row].1 == true {
+//        if yanzim[indexPath.row].1 == true {
             let cell = Bundle.main.loadNibNamed("ReceiverChatTableViewCell", owner: self, options: nil)?.first as! ReceiverChatTableViewCell
-            cell.setup(message: yanzim[indexPath.row].0)
+            cell.setup(message: yanzim[indexPath.section][indexPath.row].0)
             return cell
-        } else {
-            let cell = Bundle.main.loadNibNamed("SenderhatTableViewCell", owner: self, options: nil)?.first as! SenderhatTableViewCell
-            cell.setup(message: yanzim[indexPath.row].0)
-            return cell
-        }
+//        } else {
+//            let cell = Bundle.main.loadNibNamed("SenderhatTableViewCell", owner: self, options: nil)?.first as! SenderhatTableViewCell
+//            cell.setup(message: yanzim[indexPath.row].0)
+//            return cell
+//        }
     }
-}
-
-extension ViewController: UITextViewDelegate {
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 17))
+        headerView.backgroundColor = .clear
+        let date = UILabel(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 17))
+        headerView.addSubview(date)
+        date.text = "Hoje"
+        date.textAlignment = .center
+        date.font = UIFont(name: date.font.fontName, size: 12)
+        date.translatesAutoresizingMaskIntoConstraints = false
+        date.centerYAnchor.constraint(equalTo: headerView.centerYAnchor, constant: 0).isActive = true
+        date.centerXAnchor.constraint(equalTo: headerView.centerXAnchor, constant: 0).isActive = true
+        return headerView
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "hoje"
+    }
+    
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.textColor == UIColor.lightGray {
             textView.text = nil
             textView.textColor = UIColor.black
         }
-    }    
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        if textView.text.trimmingCharacters(in: .whitespacesAndNewlines) == ""{
+            setSendButtonCollor(enabled: false)
+        } else {
+            setSendButtonCollor(enabled: true)
+        }
+    }
+    
+    private func setSendButtonCollor(enabled: Bool){
+        if enabled {
+            sendButton.tintColor = .black
+        } else {
+            sendButton.tintColor = .lightGray
+        }
+    }
+    
 }
+
+
