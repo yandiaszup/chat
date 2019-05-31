@@ -11,23 +11,35 @@ import UIKit
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextViewDelegate {
 
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var topHeader: UIView!
+    @IBOutlet weak var topHeader: UIView! {
+        didSet {
+            topHeader.layer.shadowOffset = CGSize(width: 0, height: 4)
+            topHeader.layer.shadowColor = UIColor(red:0.18, green:0.18, blue:0.22, alpha:0.16).cgColor
+            topHeader.layer.shadowOpacity = 1
+            topHeader.layer.shadowRadius = 3
+        }
+    }
+    
     @IBOutlet weak var bottonBar: UIView!
     @IBOutlet weak var bottonBarConstraint: NSLayoutConstraint!
     
-    @IBOutlet weak var arrow: UIImageView!
-    @IBOutlet weak var avatarImage: UIImageView!
-    @IBOutlet weak var carImage: UIImageView!
+    @IBOutlet weak var backImage: UIImageView!
+    @IBOutlet weak var avatarImage: UIImageView! {
+        didSet {
+            avatarImage.layer.cornerRadius = 22
+            avatarImage.layer.masksToBounds = true
+            avatarImage.backgroundColor = .gray
+        }
+    }
     
     @IBOutlet weak var topLabel: UILabel!
-    @IBOutlet weak var downLabel: UILabel!
     
     private let sendButton = UIButton()
-    private let textField = UITextView()
+    private let messageTextView = UITextView()
     
     let chatBubleReuseId = "cell"
     var sections = ["hoje"]
-    var yanzim = [[("Lorem ipsum dolor sit amet, consectetur adipiscing elit.",true),("Nam molestie bibendum ante, vehicula tincidunt turpis placerat non. Aenean varius molestie lobortis. Nulla venenatis ut eros nec hendrerit",false),("Nam molestie bibendum ante, vehicula tincidunt turpis placerat non. Aenean varius molestie lobortis. Nulla venenatis ut eros nec hendrerit",false),("Nam molestie bibendum ante, vehicula tincidunt turpis placerat non. Aenean varius molestie lobortis. Nulla venenatis ut eros nec hendrerit",false)],[("Praesent et molestie ante. Etiam id vulputate mi. Cras id luctus urna. Donec vitae enim porttitor mi euismod dignissim. Vivamus turpis dolor, aliquam non risus a, gravida pharetra leo.",true),("Praesent et molestie ante.",false)]]
+    var messagesList = [[("Lorem ipsum dolor sit amet, consectetur adipiscing elit.",true),("Nam molestie bibendum ante, vehicula tincidunt turpis placerat non. Aenean varius molestie lobortis. Nulla venenatis ut eros nec hendrerit",false),("Nam molestie bibendum ante, vehicula tincidunt turpis placerat non. Aenean varius molestie lobortis. Nulla venenatis ut eros nec hendrerit",true),("Nam molestie bibendum ante, vehicula tincidunt turpis placerat non. Aenean varius molestie lobortis. Nulla venenatis ut eros nec hendrerit",false)],[("Praesent et molestie ante. Etiam id vulputate mi. Cras id luctus urna. Donec vitae enim porttitor mi euismod dignissim. Vivamus turpis dolor, aliquam non risus a, gravida pharetra leo.",true),("Praesent et molestie ante.",false)]]
     
     
     override func viewDidLoad() {
@@ -44,7 +56,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         tableView.allowsSelection = false
 
         configureTopHeader()
-        configureShadow()
         configureBottonBar()
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyBoardNotificationUp), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -57,9 +68,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     @objc func dismissKeyboard() {
         view.endEditing(true)
-        if textField.text.isEmpty {
-            textField.text = "Digite sua mensagem"
-            textField.textColor = UIColor.lightGray
+        if messageTextView.text.isEmpty {
+            messageTextView.text = "Digite sua mensagem"
+            messageTextView.textColor = UIColor.lightGray
             setSendButtonCollor(enabled: false)
         }
     }
@@ -89,22 +100,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                     UIView.animate(withDuration: animationTime as! TimeInterval, delay: 0, options: [.curveEaseIn], animations: {
                             self.view.layoutIfNeeded()
                     }, completion: { (finished) in
-                        let indexPath = NSIndexPath(row: self.yanzim.count - 1, section: 0)
+                        let indexPath = NSIndexPath(row: self.messagesList.count - 1, section: 0)
                         self.tableView.scrollToRow(at: indexPath as IndexPath, at: .bottom, animated: true)
                         })
                 }
     }
     
-    func configureShadow(){
-        topHeader.layer.shadowOffset = CGSize(width: 0, height: 4)
-        topHeader.layer.shadowColor = UIColor(red:0.18, green:0.18, blue:0.22, alpha:0.16).cgColor
-        topHeader.layer.shadowOpacity = 1
-        topHeader.layer.shadowRadius = 3
-    }
-    
     func configureBottonBar(){
         
-        bottonBar.addSubview(textField)
+        bottonBar.addSubview(messageTextView)
         bottonBar.addSubview(sendButton)
         bottonBar.backgroundColor = .white
         sendButton.addTarget(self, action: #selector(handleSendMessage), for:UIControl.Event.touchDown)
@@ -113,14 +117,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         sendButton.setImage(image, for: .normal)
         setSendButtonCollor(enabled: false)
         
-        textField.delegate = self
-        textField.text = "Digite sua mensagem"
-        textField.textColor = UIColor.lightGray
-        if let font = textField.font {
-            textField.font = UIFont(name: font.fontName, size: 12)
+        messageTextView.delegate = self
+        messageTextView.text = "Digite sua mensagem"
+        messageTextView.textColor = UIColor.lightGray
+        
+        if let font = messageTextView.font {
+            messageTextView.font = UIFont(name: font.fontName, size: 12)
         }
     
-        textField.translatesAutoresizingMaskIntoConstraints = false
+        messageTextView.translatesAutoresizingMaskIntoConstraints = false
         sendButton.translatesAutoresizingMaskIntoConstraints = false
         
         let constraints = [sendButton.widthAnchor.constraint(equalToConstant: 40.0),
@@ -128,10 +133,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                            sendButton.trailingAnchor.constraint(equalTo: bottonBar.trailingAnchor, constant: -19.0),
                            sendButton.centerYAnchor.constraint(equalTo: bottonBar.centerYAnchor, constant: 0),
             
-                           textField.topAnchor.constraint(equalTo: bottonBar.topAnchor, constant: 10),
-                           textField.bottomAnchor.constraint(equalTo: bottonBar.bottomAnchor, constant: -10),
-                           textField.leadingAnchor.constraint(equalTo: bottonBar.leadingAnchor, constant: 17),
-                           textField.trailingAnchor.constraint(equalTo: sendButton.leadingAnchor, constant: -19),
+                           messageTextView.topAnchor.constraint(equalTo: bottonBar.topAnchor, constant: 10),
+                           messageTextView.bottomAnchor.constraint(equalTo: bottonBar.bottomAnchor, constant: -10),
+                           messageTextView.leadingAnchor.constraint(equalTo: bottonBar.leadingAnchor, constant: 17),
+                           messageTextView.trailingAnchor.constraint(equalTo: sendButton.leadingAnchor, constant: -19),
                            
                            ]
         
@@ -139,14 +144,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     @objc func handleSendMessage(){
-        if textField.text != "Digite sua mensagem"{
-            if let message = textField.text {
+        if messageTextView.text != "Digite sua mensagem"{
+            if let message = messageTextView.text {
                 if let formattedMessage = formatMessage(message: message) {
-                    yanzim[1].append((formattedMessage,false))
-                    let indexPath = NSIndexPath(row: yanzim[1].count - 1, section: 1)
+                    messagesList[1].append((formattedMessage,false))
+                    let indexPath = NSIndexPath(row: messagesList[1].count - 1, section: 1)
                     tableView.insertRows(at: [indexPath as IndexPath], with: .right)
                     tableView.scrollToRow(at: indexPath as IndexPath, at: .bottom, animated: true)
-                    textField.text = ""
+                    messageTextView.text = ""
                     setSendButtonCollor(enabled: false)
                 }
             }
@@ -163,76 +168,33 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         return nil
     }
     
-    func configureTopHeader(){
-        topLabel.text = "Volkswagen Fusca"
-        topLabel.font = UIFont(name: topLabel.font.fontName, size: 16)
-        topLabel.textAlignment = .left
-        
-        downLabel.text = "Ver informações do vendedor"
-        downLabel.textColor = UIColor(red:0.95, green:0.07, blue:0.24, alpha:1)
-        downLabel.font = UIFont(name: downLabel.font.fontName, size: 12)
-        downLabel.textAlignment = .left
-        
+    func configureTopHeader() {
         avatarImage.layer.cornerRadius = 22
         avatarImage.layer.masksToBounds = true
-        
         avatarImage.backgroundColor = .gray
-        
-        carImage.isHidden = true
-    }
-    
-    func configureTopHeaderBuy(){
-        topLabel.text = "Lucia Maria"
-        topLabel.font = UIFont(name: topLabel.font.fontName, size: 16)
-        topLabel.textAlignment = .left
-        
-        downLabel.text = "CHEVROLET CRUZE 2017"
-        downLabel.textColor = UIColor(red:0.18, green:0.18, blue:0.22, alpha:1)
-        downLabel.font = UIFont(name: downLabel.font.fontName, size: 12)
-        downLabel.textAlignment = .left
-        
-        avatarImage.layer.cornerRadius = avatarImage.frame.height/2
-        avatarImage.layer.masksToBounds = true
-        
-        carImage.backgroundColor = .red
-        carImage.layer.cornerRadius = carImage.frame.height/2
-        carImage.layer.masksToBounds = true
-        carImage.layer.borderWidth = 2
-        carImage.layer.borderColor = UIColor.white.cgColor
-        
-        avatarImage.backgroundColor = .gray
+        topLabel.text = "Yan Lucas"
     }
     
     // MARK : TableView Methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return yanzim[section].count
+        return messagesList[section].count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        if yanzim[indexPath.row].1 == true {
+        if messagesList[indexPath.section][indexPath.row].1 {
             let cell = Bundle.main.loadNibNamed("ReceiverChatTableViewCell", owner: self, options: nil)?.first as! ReceiverChatTableViewCell
-            cell.setup(message: yanzim[indexPath.section][indexPath.row].0)
+            cell.setup(message: messagesList[indexPath.section][indexPath.row].0)
             return cell
-//        } else {
-//            let cell = Bundle.main.loadNibNamed("SenderhatTableViewCell", owner: self, options: nil)?.first as! SenderhatTableViewCell
-//            cell.setup(message: yanzim[indexPath.row].0)
-//            return cell
-//        }
+        } else {
+            let cell = Bundle.main.loadNibNamed("SenderhatTableViewCell", owner: self, options: nil)?.first as! SenderhatTableViewCell
+            cell.setup(message: messagesList[indexPath.section][indexPath.row].0)
+            return cell
+        }
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 17))
-        headerView.backgroundColor = .clear
-        let date = UILabel(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 17))
-        headerView.addSubview(date)
-        date.text = "Hoje"
-        date.textAlignment = .center
-        date.font = UIFont(name: date.font.fontName, size: 12)
-        date.translatesAutoresizingMaskIntoConstraints = false
-        date.centerYAnchor.constraint(equalTo: headerView.centerYAnchor, constant: 0).isActive = true
-        date.centerXAnchor.constraint(equalTo: headerView.centerXAnchor, constant: 0).isActive = true
-        return headerView
+        return createHeaderView()
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -258,7 +220,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
     }
     
-    private func setSendButtonCollor(enabled: Bool){
+    func setSendButtonCollor(enabled: Bool){
         if enabled {
             sendButton.tintColor = .black
         } else {
@@ -266,6 +228,18 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
     }
     
+    func createHeaderView() -> UIView {
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 17))
+        headerView.backgroundColor = .clear
+        let date = UILabel(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 17))
+        headerView.addSubview(date)
+        date.text = "Hoje"
+        date.textAlignment = .center
+        date.font = UIFont(name: date.font.fontName, size: 12)
+        date.translatesAutoresizingMaskIntoConstraints = false
+        date.centerYAnchor.constraint(equalTo: headerView.centerYAnchor, constant: 0).isActive = true
+        date.centerXAnchor.constraint(equalTo: headerView.centerXAnchor, constant: 0).isActive = true
+        return headerView
+    }
 }
-
 
